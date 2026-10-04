@@ -1,1 +1,3 @@
-print("hallo")
+import random
+import pygame 
+import math
