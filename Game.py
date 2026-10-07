@@ -1,11 +1,11 @@
 import pygame 
 import sqlite3 
 import hashlib
-
+import os
+import bcrypt
 
 Database = sqlite3.connect("spiel.db") # Verbindung zur Spiel-Datenbank
 cursor = Database.cursor()
-
 
 
 # User-Erstellung
@@ -31,11 +31,16 @@ def Password():
         else:
             print("Ihr Passwort muss mindestens 15 Zeichen enthalten!")
 
-
-
 username = User()
 password = Password()
 
 
-cursor.execute("INSERT INTO Benutzer (BenutzerName, PasswortHash) VALUES (?, ?)", (username, "platzhalter"))
+# Passwort zu Hash 
+def hash_password(password):
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return hashed.decode()
+
+password_hash = hash_password(password)
+
+cursor.execute("INSERT INTO Benutzer (BenutzerName, PasswortHash) VALUES (?, ?)", (username, password_hash))
 Database.commit()
