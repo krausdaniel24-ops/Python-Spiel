@@ -14,8 +14,13 @@ def User():
         User1 = input("Geben sie einen Benutzernamen ein: ")
 
         if len(User1) >= 10:
-            print("Ihr Benutzername wurde erfolgreich gespeichert!")
-            return User1
+            cursor.execute("SELECT * FROM Benutzer WHERE BenutzerName = ?", (User1,))
+            row = cursor.fetchone()
+            if row is None:
+                print("Ihr Benutzername wurde erfolgreich gespeichert!")
+                return User1
+            else:
+                print("Dieser Name ist schon vergeben, veruschen sie es erneut")
         else:
             print("Ihr Nutzername muss mindestens 10 Zeichen lang sein!")
 
@@ -42,5 +47,9 @@ def hash_password(password):
 
 password_hash = hash_password(password)
 
-cursor.execute("INSERT INTO Benutzer (BenutzerName, PasswortHash) VALUES (?, ?)", (username, password_hash))
-Database.commit()
+
+def register_user(username, password_hash):
+    cursor.execute("INSERT INTO Benutzer (BenutzerName, PasswortHash) VALUES (?, ?)", (username, password_hash))
+    Database.commit()
+
+register_user(username, password_hash)
