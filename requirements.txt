@@ -1,2 +1,2 @@
-bycrypt
+bcrypt
 pygame

@@ -1,6 +1,10 @@
 from auth import login, register 
+from database import init_db
+
+
 
 def main():
+    init_db()
     while True:
         print("1 = Einloggen, 2 = Registrieren")
         menu = int(input("Wählen sie zwischen 1 oder 2 aus: "))
