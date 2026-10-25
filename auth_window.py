@@ -1,4 +1,5 @@
 import tkinter as tk
+from auth import login
 
 window = tk.Tk()
 window.title("Python-Game")
@@ -26,7 +27,10 @@ def show_login():
     def login_klick():
         name = login_name.get()
         passwort = login_passwort.get()
-        print(name, passwort)
+        if login(name, passwort):
+            print("Login erfolgreich!")
+        else:
+            print("Name oder Passwort falsch.")
 
     tk.Button(window, text="Login", command=login_klick).pack()
     tk.Button(window, text="Registrieren", command=show_register).pack()

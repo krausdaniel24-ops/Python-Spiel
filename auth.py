@@ -50,22 +50,22 @@ def register():
     print("Ihr Benutzer wurde erfolgreich gespeichert!")
 
 
-def login():
-    while True:
-        username = input("Geben Sie Bitte Ihren Benutzernamen ein: ")
-        password = input("Geben Sie bitte Ihr Passwort ein: ")
-
-        cursor.execute("SELECT PasswortHash FROM Benutzer WHERE BenutzerName = ?", (username,))
-        row = cursor.fetchone()
-
-        if row is not None and bcrypt.checkpw(password.encode(), row[0].encode()):
-            return username       
-        else:
-            print("Der eingegebene Benutzername oder Passwort stimmt nicht überein.")
+def login(username, password):
+    cursor.execute("SELECT PasswortHash FROM Benutzer WHERE BenutzerName = ?", (username,))
+    row = cursor.fetchone()
+    if row is not None and bcrypt.checkpw(password.encode(), row[0].encode()):
+        return True
+    else:
+        return False
 
 
-
-
+def login_klick():
+    name = login_name.get()
+    passwort = login_passwort.get()
+    if login(name, passwort):
+        print("Login erfolgreich!")
+    else:
+        print("Name oder Passwort falsch.")
 
 
 
