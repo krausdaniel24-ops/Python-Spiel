@@ -50,6 +50,22 @@ def register():
     print("Ihr Benutzer wurde erfolgreich gespeichert!")
 
 
+def register_new(username, password):
+    if len(username) < 10:
+        return "Der Name muss mindestens 10 Zeichen haben."
+    if len(password) < 15:
+        return "Das Passwort muss mindestens 15 Zeichen haben."
+    
+    cursor.execute("SELECT * FROM Benutzer WHERE BenutzerName = ?", (username,))
+    if cursor.fetchone() is not None:
+        return "Der Name ist schon vergeben"
+    
+    password_hash = hash_password(password)
+    register_user(username, password_hash)
+    return "ok"
+
+
+
 def login(username, password):
     cursor.execute("SELECT PasswortHash FROM Benutzer WHERE BenutzerName = ?", (username,))
     row = cursor.fetchone()
@@ -59,13 +75,6 @@ def login(username, password):
         return False
 
 
-def login_klick():
-    name = login_name.get()
-    passwort = login_passwort.get()
-    if login(name, passwort):
-        print("Login erfolgreich!")
-    else:
-        print("Name oder Passwort falsch.")
 
 
 

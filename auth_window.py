@@ -1,5 +1,6 @@
 import tkinter as tk
-from auth import login
+from auth import login, register_new
+
 
 window = tk.Tk()
 window.title("Python-Game")
@@ -24,13 +25,17 @@ def show_login():
     login_passwort = tk.Entry(window, show="*", bg="white", fg="black")
     login_passwort.pack()
 
+    status = tk.Label(window, text="", bg="#442b2b", fg="white")
+    status.pack()
+
     def login_klick():
         name = login_name.get()
         passwort = login_passwort.get()
         if login(name, passwort):
-            print("Login erfolgreich!")
+            status.config(text="Login erfolgreich!", fg="green")
+            show_game()
         else:
-            print("Name oder Passwort falsch.")
+            status.config(text="Name oder Passwort falsch", fg="red")
 
     tk.Button(window, text="Login", command=login_klick).pack()
     tk.Button(window, text="Registrieren", command=show_register).pack()
@@ -49,9 +54,25 @@ def show_register():
     reg_passwort = tk.Entry(window, show="*", bg="white", fg="black")
     reg_passwort.pack()
 
-    tk.Button(window, text="Registrieren", font=("Impact", 15), fg="#272728").pack()
+    status = tk.Label(window, text="", bg="#442b2b", fg="white")
+    status.pack()
+
+
+    def register_klick():
+        name = reg_name.get()
+        password = reg_passwort.get()
+        result = register_new(name, password)
+        if result == "ok":
+            status.config(text="Registriert!", fg="green")
+        else:
+            status.config(text=result, fg="red")
+
+    tk.Button(window, text="Registrieren", command=register_klick).pack()
     tk.Button(window, text="Zurück", command=show_login).pack()
 
+def show_game():
+    clear_window()
+    tk.Label(window, text="Spiel startet!", font=("Impact 36"), fg="#89CFF0").pack()
 
 show_login()
 window.mainloop()
