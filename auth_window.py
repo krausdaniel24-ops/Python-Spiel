@@ -1,6 +1,6 @@
 import tkinter as tk
 from auth import login, register_new
-
+from database import init_db
 
 window = tk.Tk()
 window.title("Python-Game")
@@ -74,5 +74,7 @@ def show_game():
     clear_window()
     tk.Label(window, text="Spiel startet!", font=("Impact 36"), fg="#89CFF0").pack()
 
-show_login()
-window.mainloop()
+
+def start():
+    show_login()
+    window.mainloop()
